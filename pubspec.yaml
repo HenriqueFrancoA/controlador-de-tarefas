@@ -1,0 +1,34 @@
+name: minhas_tarefas
+description: A new Flutter project.
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ">=2.19.4 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  intl: ^0.18.1
+  get: ^4.6.1
+  flutter_local_notifications: ^16.1.0
+  sizer: ^2.0.15
+  table_calendar: ^3.0.9
+  google_fonts: ^6.1.0
+  sqflite: ^2.2.8+4
+  path_provider: ^2.1.1
+  path: ^1.8.3
+  fl_chart: ^0.64.0
+  top_snackbar_flutter: ^3.0.0+1
+  lottie: ^1.2.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/

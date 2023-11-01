@@ -9,6 +9,7 @@ class FinancaController extends GetxController {
   RxList<Financa> esteMes = RxList<Financa>();
   RxList<Financa> semanaSelecionada = RxList<Financa>();
   RxList<Financa> diaSelecionado = RxList<Financa>();
+  RxList<double> valorFinancaPorSemana = RxList<double>.filled(5, 0);
   RxList<double> quantidadeFinancaPorSemana = RxList<double>.filled(5, 0);
   RxList<double> quantidadeFinancaPorDia = RxList<double>.filled(7, 0);
 
@@ -41,7 +42,6 @@ class FinancaController extends GetxController {
         (tarefaData.isBefore(ultimoDiaSemana) ||
             (tarefaData.day == ultimoDiaSemana.day &&
                 tarefaData.month == ultimoDiaSemana.month))) {
-      print('esse foi $dia nessa semana $tarefaData');
       return true;
     } else {
       return false;
@@ -54,8 +54,8 @@ class FinancaController extends GetxController {
     return todasFinancas;
   }
 
-  montarMes() {
-    inicioPrimeiraSemana = DateTime(hoje.year, hoje.month, 1);
+  montarMes(DateTime dataMes) {
+    inicioPrimeiraSemana = DateTime(dataMes.year, dataMes.month, 1);
     final ultimo = inicioPrimeiraSemana!
         .subtract(Duration(days: inicioPrimeiraSemana!.weekday - 1));
     fimPrimeiraSemana = ultimo.add(const Duration(days: 6));
@@ -106,56 +106,63 @@ class FinancaController extends GetxController {
     return 5;
   }
 
-  filtrarFinancasDoMesAtual() {
-    montarMes();
+  filtrarFinancasDoMesAtual(DateTime dataMes) {
+    montarMes(dataMes);
     esteMes.clear();
     esteMes.addAll(todasFinancas.where((tarefa) {
       if (tarefa.recorrencia == 'Mensal') {
-        if (tarefa.qtdRecorrencia == null) {
-          return true;
-        } else {
-          int novoMes = tarefa.dataFinanca.month;
-          for (int x = 0; x <= tarefa.qtdRecorrencia!; x++) {
-            if (novoMes >= 13) {
-              novoMes -= 12;
+        if (dataMes.year >= tarefa.dataFinanca.year &&
+            dataMes.month >= tarefa.dataFinanca.month) {
+          if (tarefa.qtdRecorrencia == null) {
+            return true;
+          } else {
+            int novoMes = tarefa.dataFinanca.month;
+            for (int x = 0; x < tarefa.qtdRecorrencia!; x++) {
+              if (novoMes >= 13) {
+                novoMes -= 12;
+              }
+              if (novoMes == dataMes.month) {
+                return true;
+              }
+              novoMes++;
             }
-            if (novoMes == hoje.month) {
-              return true;
-            }
-            novoMes++;
           }
+        } else {
+          return false;
         }
       }
-      if (tarefa.dataFinanca.month.isEqual(hoje.month)) {
+      if (tarefa.dataFinanca.month.isEqual(dataMes.month)) {
         return true;
       }
       return false;
     }));
     int index;
+    valorFinancaPorSemana = RxList<double>.filled(5, 0);
     quantidadeFinancaPorSemana = RxList<double>.filled(5, 0);
     DateTime dataComMesAtual;
     for (Financa financa in esteMes) {
       dataComMesAtual =
-          DateTime(hoje.year, hoje.month, financa.dataFinanca.day);
+          DateTime(dataMes.year, dataMes.month, financa.dataFinanca.day);
       index = verificaSemana(dataComMesAtual);
       if (index != 5) {
+        quantidadeFinancaPorSemana[index] += 1;
         if (financa.entrada) {
-          quantidadeFinancaPorSemana[index] += financa.valor;
+          valorFinancaPorSemana[index] += financa.valor;
         } else {
-          quantidadeFinancaPorSemana[index] -= financa.valor;
+          valorFinancaPorSemana[index] -= financa.valor;
         }
       }
     }
   }
 
-  filtrarFinancasSemanaSelecionada(int semana) {
+  filtrarFinancasSemanaSelecionada(int semana, DateTime dataMes) {
     quantidadeFinancaPorDia = RxList<double>.filled(7, 0);
     semanaSelecionada.clear();
     int index;
     DateTime dataComMesAtual;
     for (Financa financa in esteMes) {
       dataComMesAtual =
-          DateTime(hoje.year, hoje.month, financa.dataFinanca.day);
+          DateTime(dataMes.year, dataMes.month, financa.dataFinanca.day);
       index = verificaSemana(dataComMesAtual);
       if (index == semana) {
         semanaSelecionada.add(financa);
@@ -218,7 +225,6 @@ class FinancaController extends GetxController {
 
     if (financa.dataFinanca.month == hoje.month) {
       esteMes.add(financa);
-      await filtrarFinancasDoMesAtual();
     }
 
     update();

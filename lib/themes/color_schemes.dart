@@ -3,7 +3,7 @@ part of 'themes.dart';
 const _lightColorScheme = ColorScheme(
   brightness: Brightness.light,
   primary: Color(0xFF3498DB),
-  onPrimary: Color(0xFFFFFFFF),
+  onPrimary: Color.fromARGB(255, 75, 157, 212),
   primaryContainer: Color(0xFF97F0FF),
   onPrimaryContainer: Color(0xFF001F24),
   secondary: Color(0xFF2979FF),

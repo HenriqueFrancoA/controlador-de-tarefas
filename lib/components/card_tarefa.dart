@@ -25,6 +25,14 @@ class CardTarefaState extends State<CardTarefa> {
         descricao = '${descricao.substring(0, 20)}...';
       }
     }
+    Color corPrioridade = Theme.of(context).colorScheme.onSecondary;
+    if (widget.tarefa.prioridade == 'Alta') {
+      corPrioridade = Theme.of(context).colorScheme.secondary;
+    } else if (widget.tarefa.prioridade == 'Média') {
+      corPrioridade = Theme.of(context).colorScheme.primary;
+    } else if (widget.tarefa.prioridade == 'Baixa') {
+      corPrioridade = Theme.of(context).colorScheme.onPrimary;
+    }
     return GestureDetector(
       onTap: () => Get.toNamed('/visualizar', arguments: {
         'tarefa': widget.tarefa,
@@ -33,7 +41,7 @@ class CardTarefaState extends State<CardTarefa> {
         height: 75,
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.primary,
+          color: corPrioridade,
           borderRadius: BorderRadius.circular(5),
         ),
         child: Column(

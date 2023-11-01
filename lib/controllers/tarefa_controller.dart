@@ -17,35 +17,40 @@ class TarefaController extends GetxController {
 
   Future<List<Tarefa>> carregarTarefas() async {
     todasTarefas.addAll(await tarefaDAO.getAllTarefas());
-    filtrarTarefasDaSemanaAtual();
+    filtrarTarefasDaSemanaAtual(dataAtual);
     return todasTarefas;
   }
 
-  filtrarTarefasDaSemanaAtual() {
+  filtrarTarefasDaSemanaAtual(DateTime dataSemana) {
     final inicioDoDia =
-        DateTime(dataAtual.year, dataAtual.month, dataAtual.day);
+        DateTime(dataSemana.year, dataSemana.month, dataSemana.day);
     final firstDayOfWeek =
         inicioDoDia.subtract(Duration(days: inicioDoDia.weekday - 1));
     final lastDayOfWeek = firstDayOfWeek.add(const Duration(days: 6));
 
     estaSemana.clear();
     estaSemana.addAll(todasTarefas.where((tarefa) {
-      final tarefaData = tarefa.dataTarefa;
+      if (tarefa.desativado == true) {
+        return false;
+      }
       if (tarefa.recorrencia == "Todo dia") {
         return true;
       }
       if (tarefa.recorrencia == "Dias semana") {
-        if (tarefaData.weekday < 6) {
+        // if (tarefaData.weekday < 6) {
+        return true;
+        // }
+      }
+      if (tarefa.dataTarefa != null) {
+        final tarefaData = tarefa.dataTarefa;
+        if ((tarefaData!.isAfter(firstDayOfWeek) ||
+                (tarefaData.day == firstDayOfWeek.day &&
+                    tarefaData.month == firstDayOfWeek.month)) &&
+            (tarefaData.isBefore(lastDayOfWeek) ||
+                (tarefaData.day == lastDayOfWeek.day &&
+                    tarefaData.month == lastDayOfWeek.month))) {
           return true;
         }
-      }
-      if ((tarefaData.isAfter(firstDayOfWeek) ||
-              (tarefaData.day == firstDayOfWeek.day &&
-                  tarefaData.month == firstDayOfWeek.month)) &&
-          (tarefaData.isBefore(lastDayOfWeek) ||
-              (tarefaData.day == lastDayOfWeek.day &&
-                  tarefaData.month == lastDayOfWeek.month))) {
-        return true;
       }
       return false;
     }));
@@ -73,12 +78,12 @@ class TarefaController extends GetxController {
             quantidadeTarefa[x]++;
           }
         }
-      } else {
-        quantidadeTarefa[tarefa.dataTarefa.weekday - 1]++;
+      } else if (tarefa.dataTarefa != null) {
+        quantidadeTarefa[tarefa.dataTarefa!.weekday - 1]++;
       }
     }
 
-    filtrarTarefasDiaSelecionado(dataAtual.weekday);
+    filtrarTarefasDiaSelecionado(dataSemana.weekday);
   }
 
   Future<int> filtrarTarefasDiaSelecionado(int diaSemana) async {
@@ -90,7 +95,8 @@ class TarefaController extends GetxController {
         if (diaSemana < 6) {
           diaSelecionado.add(tarefa);
         }
-      } else if (tarefa.dataTarefa.weekday == diaSemana) {
+      } else if (tarefa.dataTarefa != null &&
+          tarefa.dataTarefa!.weekday == diaSemana) {
         diaSelecionado.add(tarefa);
       }
     }
@@ -153,51 +159,21 @@ class TarefaController extends GetxController {
     todasTarefas.add(tarefa);
     if (tarefa.recorrencia == "Todo dia") {
       estaSemana.add(tarefa);
-      await filtrarTarefasDaSemanaAtual();
     } else if (tarefa.recorrencia == "Dias semana") {
-      if (tarefa.dataTarefa.weekday < 6) {
-        estaSemana.add(tarefa);
-        await filtrarTarefasDaSemanaAtual();
-      }
-    } else if ((tarefa.dataTarefa.isAfter(firstDayOfWeek) ||
-            (tarefa.dataTarefa.day == firstDayOfWeek.day &&
-                tarefa.dataTarefa.month == firstDayOfWeek.month)) &&
-        (tarefa.dataTarefa.isBefore(lastDayOfWeek) ||
-            (tarefa.dataTarefa.day == lastDayOfWeek.day &&
-                tarefa.dataTarefa.month == lastDayOfWeek.month))) {
+      // if (tarefa.dataTarefa.weekday < 6) {
       estaSemana.add(tarefa);
-      await filtrarTarefasDaSemanaAtual();
-    }
 
-    // FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    //     FlutterLocalNotificationsPlugin();
-    // final tarefaTime = tarefa.dataTarefa.add(Duration(
-    //   hours: int.parse(tarefa.horarioInicio.substring(0, 2)) - 2,
-    //   minutes: 10, // int.parse(tarefa.horarioInicio.substring(3, 5)),
-    // ));
-    // const String timeZoneName = 'America/Sao_Paulo';
-    // await flutterLocalNotificationsPlugin.zonedSchedule(
-    //   tarefa.id!,
-    //   'Lembrete de Tarefa',
-    //   tarefa.descricao,
-    //   tz.TZDateTime.from(
-    //     tarefaTime,
-    //     tz.getLocation(timeZoneName),
-    //   ),
-    //   NotificationDetails(
-    //     android: AndroidNotificationDetails(
-    //       'channel_id',
-    //       'minhas tarefas',
-    //       priority: tarefa.prioridade == 'Alta'
-    //           ? Priority.high
-    //           : tarefa.prioridade == 'Média'
-    //               ? Priority.low
-    //               : Priority.min,
-    //     ),
-    //   ),
-    //   uiLocalNotificationDateInterpretation:
-    //       UILocalNotificationDateInterpretation.absoluteTime,
-    // );
+      // }
+    } else if (tarefa.dataTarefa != null &&
+        (tarefa.dataTarefa!.isAfter(firstDayOfWeek) ||
+            (tarefa.dataTarefa!.day == firstDayOfWeek.day &&
+                tarefa.dataTarefa!.month == firstDayOfWeek.month)) &&
+        (tarefa.dataTarefa!.isBefore(lastDayOfWeek) ||
+            (tarefa.dataTarefa!.day == lastDayOfWeek.day &&
+                tarefa.dataTarefa!.month == lastDayOfWeek.month))) {
+      estaSemana.add(tarefa);
+    }
+    await filtrarTarefasDaSemanaAtual(dataAtual);
     update();
   }
 

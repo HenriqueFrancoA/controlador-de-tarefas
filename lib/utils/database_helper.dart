@@ -35,6 +35,7 @@ class DatabaseHelper {
         categoria INTEGER,
         recorrencia TEXT,
         notas TEXT,
+        desativado INTEGER,
         FOREIGN KEY(categoria) REFERENCES tb_categoria(id)
       )
     """);

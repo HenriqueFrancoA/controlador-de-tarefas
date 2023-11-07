@@ -21,7 +21,9 @@ dependencies:
   fl_chart: ^0.64.0
   top_snackbar_flutter: ^3.0.0+1
   lottie: ^1.2.1
-  animated_widgets: ^1.1.0
+  google_mobile_ads: ^3.0.0
+  introduction_screen: ^3.1.12
+  shared_preferences: ^2.0.8
 
 dev_dependencies:
   flutter_test:

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:minhas_tarefas/components/banner_component.dart';
 import 'package:minhas_tarefas/components/button_bar_component.dart';
 import 'package:minhas_tarefas/components/card_tarefa.dart';
 import 'package:minhas_tarefas/components/floating_button_component.dart';
@@ -36,6 +37,7 @@ class HomeTarefaScreenState extends State<HomeTarefaScreen> {
   DateTime semanaSelecionada = DateTime.now();
   DateTime? firstDayOfWeek;
   DateTime? lastDayOfWeek;
+  bool isBannerClosed = false;
 
   @override
   void initState() {
@@ -66,6 +68,15 @@ class HomeTarefaScreenState extends State<HomeTarefaScreen> {
                         color: const Color(0xFF333333),
                       ),
                 ),
+                isBannerClosed
+                    ? Container()
+                    : BannerComponent(
+                        onBannerClosed: () {
+                          setState(() {
+                            isBannerClosed = true;
+                          });
+                        },
+                      ),
                 SizedBox(
                   height: 3.h,
                 ),
@@ -127,7 +138,7 @@ class HomeTarefaScreenState extends State<HomeTarefaScreen> {
                 ),
                 Container(
                   width: 100.w,
-                  height: 35.h,
+                  height: isBannerClosed ? 35.h : 35.h - 50,
                   decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.background,
                     borderRadius: BorderRadius.circular(5),
@@ -182,15 +193,18 @@ class HomeTarefaScreenState extends State<HomeTarefaScreen> {
                                       show: false,
                                     ),
                                     gridData: const FlGridData(show: false),
-                                    barGroups: [
-                                      BarChartGroupData(
-                                        x: 0,
+                                    barGroups: List<BarChartGroupData>.generate(
+                                        7, (index) {
+                                      return BarChartGroupData(
+                                        x: index,
                                         barRods: [
                                           BarChartRodData(
-                                            toY: controller.quantidadeTarefa[0]
+                                            toY: controller
+                                                .quantidadeTarefa[index]
                                                 .toDouble(),
+                                            fromY: 0,
                                             width: 20,
-                                            color: diaSelecionado.value == 0
+                                            color: diaSelecionado.value == index
                                                 ? Theme.of(context)
                                                     .colorScheme
                                                     .secondary
@@ -202,128 +216,8 @@ class HomeTarefaScreenState extends State<HomeTarefaScreen> {
                                                     Radius.circular(5)),
                                           ),
                                         ],
-                                      ),
-                                      BarChartGroupData(
-                                        x: 1,
-                                        barRods: [
-                                          BarChartRodData(
-                                            toY: controller.quantidadeTarefa[1]
-                                                .toDouble(),
-                                            width: 20,
-                                            color: diaSelecionado.value == 1
-                                                ? Theme.of(context)
-                                                    .colorScheme
-                                                    .secondary
-                                                : Theme.of(context)
-                                                    .colorScheme
-                                                    .primary,
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                                    Radius.circular(5)),
-                                          ),
-                                        ],
-                                      ),
-                                      BarChartGroupData(
-                                        x: 2,
-                                        barRods: [
-                                          BarChartRodData(
-                                            toY: controller.quantidadeTarefa[2]
-                                                .toDouble(),
-                                            width: 20,
-                                            color: diaSelecionado.value == 2
-                                                ? Theme.of(context)
-                                                    .colorScheme
-                                                    .secondary
-                                                : Theme.of(context)
-                                                    .colorScheme
-                                                    .primary,
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                                    Radius.circular(5)),
-                                          ),
-                                        ],
-                                      ),
-                                      BarChartGroupData(
-                                        x: 3,
-                                        barRods: [
-                                          BarChartRodData(
-                                            toY: controller.quantidadeTarefa[3]
-                                                .toDouble(),
-                                            width: 20,
-                                            color: diaSelecionado.value == 3
-                                                ? Theme.of(context)
-                                                    .colorScheme
-                                                    .secondary
-                                                : Theme.of(context)
-                                                    .colorScheme
-                                                    .primary,
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                                    Radius.circular(5)),
-                                          ),
-                                        ],
-                                      ),
-                                      BarChartGroupData(
-                                        x: 4,
-                                        barRods: [
-                                          BarChartRodData(
-                                            toY: controller.quantidadeTarefa[4]
-                                                .toDouble(),
-                                            width: 20,
-                                            color: diaSelecionado.value == 4
-                                                ? Theme.of(context)
-                                                    .colorScheme
-                                                    .secondary
-                                                : Theme.of(context)
-                                                    .colorScheme
-                                                    .primary,
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                                    Radius.circular(5)),
-                                          ),
-                                        ],
-                                      ),
-                                      BarChartGroupData(
-                                        x: 5,
-                                        barRods: [
-                                          BarChartRodData(
-                                            toY: controller.quantidadeTarefa[5]
-                                                .toDouble(),
-                                            width: 20,
-                                            color: diaSelecionado.value == 5
-                                                ? Theme.of(context)
-                                                    .colorScheme
-                                                    .secondary
-                                                : Theme.of(context)
-                                                    .colorScheme
-                                                    .primary,
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                                    Radius.circular(5)),
-                                          ),
-                                        ],
-                                      ),
-                                      BarChartGroupData(
-                                        x: 6,
-                                        barRods: [
-                                          BarChartRodData(
-                                            toY: controller.quantidadeTarefa[6]
-                                                .toDouble(),
-                                            width: 20,
-                                            color: diaSelecionado.value == 6
-                                                ? Theme.of(context)
-                                                    .colorScheme
-                                                    .secondary
-                                                : Theme.of(context)
-                                                    .colorScheme
-                                                    .primary,
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                                    Radius.circular(5)),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                      );
+                                    }),
                                     barTouchData: BarTouchData(
                                         touchTooltipData: BarTouchTooltipData(
                                           tooltipBgColor: Theme.of(context)

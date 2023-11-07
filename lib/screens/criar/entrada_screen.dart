@@ -57,14 +57,32 @@ class EntradaScreenState extends State<EntradaScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        Get.offNamed('/home_financas');
+        financa != null
+            ? Get.offNamed(
+                '/visualizar_financa',
+                arguments: {
+                  'financa': financa,
+                },
+              )
+            : Get.offNamed(
+                '/home_financas',
+              );
         return false;
       },
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
           leading: IconButton(
-            onPressed: () => Get.offNamed('/home_financas'),
+            onPressed: () => financa != null
+                ? Get.offNamed(
+                    '/visualizar_financa',
+                    arguments: {
+                      'financa': financa,
+                    },
+                  )
+                : Get.offNamed(
+                    '/home_financas',
+                  ),
             icon: const Icon(
               Icons.arrow_back,
               color: Colors.black,

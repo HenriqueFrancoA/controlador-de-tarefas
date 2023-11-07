@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:minhas_tarefas/components/banner_component.dart';
 import 'package:minhas_tarefas/components/button_bar_component.dart';
 import 'package:minhas_tarefas/components/card_financa.dart';
 import 'package:minhas_tarefas/components/floating_button_component.dart';
@@ -44,6 +45,7 @@ class HomeFinancasScreenState extends State<HomeFinancasScreen> {
   RxBool graficoSemana = RxBool(true);
   RxInt diaSelecionado = (hoje.weekday - 1).obs;
   DateTime mesSelecionado = DateTime.now();
+  bool isBannerClosed = false;
 
   @override
   void initState() {
@@ -71,6 +73,15 @@ class HomeFinancasScreenState extends State<HomeFinancasScreen> {
                         color: const Color(0xFF333333),
                       ),
                 ),
+                isBannerClosed
+                    ? Container()
+                    : BannerComponent(
+                        onBannerClosed: () {
+                          setState(() {
+                            isBannerClosed = true;
+                          });
+                        },
+                      ),
                 SizedBox(
                   height: 3.h,
                 ),
@@ -148,7 +159,7 @@ class HomeFinancasScreenState extends State<HomeFinancasScreen> {
                 ),
                 Container(
                   width: 100.w,
-                  height: 35.h,
+                  height: isBannerClosed ? 35.h : 35.h - 50,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
                   ),
@@ -165,7 +176,7 @@ class HomeFinancasScreenState extends State<HomeFinancasScreen> {
                                 children: [
                                   SizedBox(
                                     width: 100.w,
-                                    height: 29.h,
+                                    height: isBannerClosed ? 29.h : 29.h - 50,
                                     child: Card(
                                       elevation: 3,
                                       child: Padding(
@@ -214,18 +225,6 @@ class HomeFinancasScreenState extends State<HomeFinancasScreen> {
                                                 x: index,
                                                 barRods: [
                                                   BarChartRodData(
-                                                    backDrawRodData:
-                                                        BackgroundBarChartRodData(
-                                                      color: controller
-                                                                      .valorFinancaPorSemana[
-                                                                  index] <
-                                                              0
-                                                          ? Colors.red
-                                                          : Theme.of(context)
-                                                              .colorScheme
-                                                              .primaryContainer,
-                                                      show: true,
-                                                    ),
                                                     toY: controller.valorFinancaPorSemana[
                                                                 index] <
                                                             0
@@ -237,15 +236,24 @@ class HomeFinancasScreenState extends State<HomeFinancasScreen> {
                                                             index],
                                                     fromY: 0,
                                                     width: 20,
-                                                    color: semanaSelecionada
-                                                                .value ==
-                                                            index
-                                                        ? Theme.of(context)
-                                                            .colorScheme
-                                                            .secondary
-                                                        : Theme.of(context)
-                                                            .colorScheme
-                                                            .primary,
+                                                    color: controller
+                                                                    .valorFinancaPorSemana[
+                                                                index] <
+                                                            0
+                                                        ? semanaSelecionada
+                                                                    .value ==
+                                                                index
+                                                            ? Colors.red[800]
+                                                            : Colors.red
+                                                        : semanaSelecionada
+                                                                    .value ==
+                                                                index
+                                                            ? Theme.of(context)
+                                                                .colorScheme
+                                                                .secondary
+                                                            : Theme.of(context)
+                                                                .colorScheme
+                                                                .primary,
                                                     borderRadius:
                                                         const BorderRadius.all(
                                                             Radius.circular(5)),
@@ -346,7 +354,7 @@ class HomeFinancasScreenState extends State<HomeFinancasScreen> {
                                 children: [
                                   SizedBox(
                                     width: 100.w,
-                                    height: 29.h,
+                                    height: isBannerClosed ? 29.h : 29.h - 50,
                                     child: PieChart(
                                       PieChartData(
                                         sections:
@@ -396,7 +404,9 @@ class HomeFinancasScreenState extends State<HomeFinancasScreen> {
                                                   .textTheme
                                                   .bodySmall,
                                               value: quantidadeFinanca,
-                                              radius: 14.5.h,
+                                              radius: isBannerClosed
+                                                  ? 14.5.h
+                                                  : 14.5.h - 25,
                                             );
                                           },
                                         ),

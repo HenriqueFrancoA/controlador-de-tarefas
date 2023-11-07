@@ -87,6 +87,11 @@ class AgendarScreenState extends State<AgendarScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
+        tarefa != null
+            ? Get.offNamed('/visualizar', arguments: {
+                'tarefa': tarefa,
+              })
+            : Get.back();
         return false;
       },
       child: Scaffold(
@@ -373,6 +378,8 @@ class AgendarScreenState extends State<AgendarScreen> {
                           onPressed: () {
                             Get.defaultDialog(
                               title: "Criar categoria",
+                              titleStyle:
+                                  Theme.of(context).textTheme.titleMedium,
                               content: Container(
                                 width: 100.w,
                                 height: 20.h,
@@ -414,7 +421,7 @@ class AgendarScreenState extends State<AgendarScreen> {
                                         'Criar',
                                         style: Theme.of(context)
                                             .textTheme
-                                            .labelSmall,
+                                            .bodySmall,
                                       ),
                                     ),
                                   ],

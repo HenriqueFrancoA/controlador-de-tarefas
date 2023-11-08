@@ -37,9 +37,7 @@ class TarefaController extends GetxController {
         return true;
       }
       if (tarefa.recorrencia == "Dias semana") {
-        // if (tarefaData.weekday < 6) {
         return true;
-        // }
       }
       if (tarefa.dataTarefa != null) {
         final tarefaData = tarefa.dataTarefa;
@@ -160,10 +158,7 @@ class TarefaController extends GetxController {
     if (tarefa.recorrencia == "Todo dia") {
       estaSemana.add(tarefa);
     } else if (tarefa.recorrencia == "Dias semana") {
-      // if (tarefa.dataTarefa.weekday < 6) {
       estaSemana.add(tarefa);
-
-      // }
     } else if (tarefa.dataTarefa != null &&
         (tarefa.dataTarefa!.isAfter(firstDayOfWeek) ||
             (tarefa.dataTarefa!.day == firstDayOfWeek.day &&

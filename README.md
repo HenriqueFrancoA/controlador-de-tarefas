@@ -31,8 +31,9 @@ themes: Configurações de tema e estilo.
 utils: Funções utilitárias como banco de dados local e helper.
 
 ## Uso
-![Início](https://github.com/rick5678/controlador-de-tarefas/blob/master/assets/readme02.gif)   ![Tarefas](/assets/readme01.gif)
+![Tarefas](https://github.com/rick5678/controlador-de-tarefas/blob/master/assets/readme01.gif)   ![Finanças](/assets/readme02.gif)
 
 
 ## Contribuição
-Explique como os colaboradores podem ajudar no desenvolvimento do seu projeto. Isso pode incluir instruções sobre como relatar problemas, sugerir melhorias, enviar pull requests, etc.
+Caso tenha alguma sugestão ou dúvida, me mande um e-mail. 
+henrriquefrancoaraujo@gmail.com

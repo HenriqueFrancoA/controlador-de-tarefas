@@ -31,7 +31,7 @@ themes: Configurações de tema e estilo.
 utils: Funções utilitárias como banco de dados local e helper.
 
 ## Uso
-![Início](/assets/readme02.gif)   ![Tarefas](/assets/readme01.gif)
+![Início](https://github.com/rick5678/controlador-de-tarefas/blob/master/assets/readme02.gif)   ![Tarefas](/assets/readme01.gif)
 
 
 ## Contribuição

@@ -240,18 +240,16 @@ class TarefasScreenState extends State<TarefasScreen> {
               Obx(
                 () => SizedBox(
                   height: 60.h,
-                  child: Expanded(
-                    child: ListView.separated(
-                      scrollDirection: Axis.vertical,
-                      itemCount: tarefaController.tarefasFiltradas.length,
-                      itemBuilder: (context, index) {
-                        return CardTarefa(
-                          tarefa: tarefaController.tarefasFiltradas[index],
-                        );
-                      },
-                      separatorBuilder: (context, index) => SizedBox(
-                        height: 1.h,
-                      ),
+                  child: ListView.separated(
+                    scrollDirection: Axis.vertical,
+                    itemCount: tarefaController.tarefasFiltradas.length,
+                    itemBuilder: (context, index) {
+                      return CardTarefa(
+                        tarefa: tarefaController.tarefasFiltradas[index],
+                      );
+                    },
+                    separatorBuilder: (context, index) => SizedBox(
+                      height: 1.h,
                     ),
                   ),
                 ),

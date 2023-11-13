@@ -138,7 +138,7 @@ class VisualizarFinancaScreenState extends State<VisualizarFinancaScreen> {
                       width: 100.w,
                       height: 34.h - 43,
                       padding: const EdgeInsets.all(10),
-                      child: Expanded(
+                      child: SingleChildScrollView(
                         child: Text(
                           financa.notas != ''
                               ? financa.notas!

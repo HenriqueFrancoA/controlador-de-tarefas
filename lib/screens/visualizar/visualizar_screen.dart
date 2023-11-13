@@ -344,7 +344,7 @@ class VisualizarScreenState extends State<VisualizarScreen> {
                       width: 100.w,
                       height: 34.h - 43,
                       padding: const EdgeInsets.all(10),
-                      child: Expanded(
+                      child: SingleChildScrollView(
                         child: Text(
                           tarefa.notas != '' ? tarefa.notas! : 'Nenhuma nota.',
                           style: Theme.of(context).textTheme.labelMedium,

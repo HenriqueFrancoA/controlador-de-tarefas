@@ -1,7 +1,7 @@
 name: minhas_tarefas
 description: A new Flutter project.
 publish_to: 'none'
-version: 1.0.2+2
+version: 1.0.2+3
 
 environment:
   sdk: ">=2.19.4 <3.0.0"

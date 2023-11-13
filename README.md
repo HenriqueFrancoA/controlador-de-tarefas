@@ -31,7 +31,8 @@ themes: Configurações de tema e estilo.
 utils: Funções utilitárias como banco de dados local e helper.
 
 ## Uso
-Demonstre como utilizar seu projeto. Forneça exemplos simples ou casos de uso comuns. Isso pode incluir códigos de exemplo.
+![Início](https://github.com/rick5678/controlador-de-tarefas/blob/master/assets/readme02.gif)   ![Tarefas](/assets/readme01.gif)
+
 
 ## Contribuição
 Explique como os colaboradores podem ajudar no desenvolvimento do seu projeto. Isso pode incluir instruções sobre como relatar problemas, sugerir melhorias, enviar pull requests, etc.

@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:minhas_tarefas/models/bannerAnuncio.dart';
 
 class BannerComponent extends StatefulWidget {
   final VoidCallback onBannerClosed;
@@ -19,9 +20,7 @@ class BannerComponentState extends State<BannerComponent> {
 
     banner = BannerAd(
       size: AdSize.banner,
-      adUnitId: kReleaseMode
-          ? "ca-app-pub-4824022930012497/5904395969"
-          : "ca-app-pub-3940256099942544/6300978111",
+      adUnitId: kReleaseMode ? BannerAnuncio.id : BannerAnuncio.testeId,
       listener: BannerAdListener(
         onAdFailedToLoad: (ad, err) {
           setState(() {

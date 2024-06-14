@@ -23,12 +23,12 @@ flutter run
 ## Estrutura de Pastas
 O projeto está organizado com as seguintes pastas:
 
--components: Onde ficam os componentes que são reutilizádos.
--controllers: Controllers tomam conta das lógicas que são aplicadas e fazem o app se comunicar entre uma tela e outra (ou banco de dados local).
--models: Definições de dados e modelos.
--screens: Telas principais do aplicativo.
--themes: Configurações de tema e estilo.
--utils: Funções utilitárias como banco de dados local e helper.
+- components: Onde ficam os componentes que são reutilizádos.
+- controllers: Controllers tomam conta das lógicas que são aplicadas e fazem o app se comunicar entre uma tela e outra (ou banco de dados local).
+- models: Definições de dados e modelos.
+- screens: Telas principais do aplicativo.
+- themes: Configurações de tema e estilo.
+- utils: Funções utilitárias como banco de dados local e helper.
 
 ## Uso
 ![Tarefas](https://github.com/rick5678/controlador-de-tarefas/blob/master/assets/readme01.gif)   ![Finanças](/assets/readme02.gif)
